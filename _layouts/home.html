@@ -1,0 +1,16 @@
+---
+layout: default
+---
+<dt-article>
+  <h1>AlephD</h1>
+  <h2>tech blog</h2>
+  <dt-byline></dt-byline>
+  {{ content }}
+  {% for post in site.posts %}
+    <h2><a href="{{ post.url | relative_url }}">{{ post.date | date: '%B %d, %Y' }} - {{ post.title | escape }}</a></h2>
+    <p>{{ post.description }}</p>
+  {% endfor %}
+</dt-article>
+<dt-appendix>
+  <p>subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p>
+</dt-appendix>
