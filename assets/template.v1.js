@@ -5409,13 +5409,14 @@ function citation_meta_content(ref){
 var html$1 = "\n<style>\n  dt-banner {\n    background: #FFF59D;\n    display: block;\n    text-align: center;\n    color: black;\n    height: 70px;\n    line-height: 70px;\n  }\n</style>\n<div>This article is a draft, awaiting review for publication in Distill</div>\n";
 
 var banner = function(dom, data) {
-  var banner = dom.createElement("dt-banner");
-  //banner.innerHTML = html$1;
-  var b = dom.querySelector("body");
-  b.insertBefore(banner, b.firstChild);
-  banner.addEventListener("click", function() {
-    banner.style.display = "none";
-  });
+	// // No special banner
+  // var banner = dom.createElement("dt-banner");
+  // banner.innerHTML = html$1;
+  // var b = dom.querySelector("body");
+  // b.insertBefore(banner, b.firstChild);
+  // banner.addEventListener("click", function() {
+  //   banner.style.display = "none";
+  // });
 };
 
 var mustache = createCommonjsModule(function (module, exports) {
