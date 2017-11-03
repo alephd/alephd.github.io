@@ -1,5 +1,10 @@
 title: Real-time, Auctions, Data...
-email: your-email@example.com
+author: AlephD, an Oath company
+email: contact@alephd.com
 description: AlephD tech blog
 twitter_username: alephd_labs
 github_username:  alephd
+
+# We deactivate math processing from kramdown
+kramdown:
+  math_engine: nil

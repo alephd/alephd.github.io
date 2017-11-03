@@ -3,13 +3,6 @@ layout: page
 title: About
 permalink: /about/
 ---
+AlephD brings real-time technology to publishers to make the complexities of the advertising ecosystem more efficient. We have **top international engineers, passionate data scientists** and **industry experts** who believe programmatic will empower publishers to better realize their audience and inventory value.
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](http://jekyllrb.com/)
-
-You can find the source code for the Jekyll new theme at:
-{% include icon-github.html username="jekyll" %} /
-[minima](https://github.com/jekyll/minima)
-
-You can find the source code for Jekyll at
-{% include icon-github.html username="jekyll" %} /
-[jekyll](https://github.com/jekyll/jekyll)
+AlephD’s fascination for math and technology is addressing a unique goal: better serving those who built content towards efficient selling. The company was acquired by AOL Inc. in January 2016.
