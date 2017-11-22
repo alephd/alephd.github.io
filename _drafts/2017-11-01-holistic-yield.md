@@ -187,6 +187,11 @@ Finally, <dt-cite key="wang2012selling"></dt-cite> and <dt-cite key="chen2015fin
 
 ## Various challenges related to holistic yield
 
+We apply infimum smoothing to the objective function (actually supremum smoothing, i.e. supremum convolution with a negative parabola). The gradient descent.
+Called Moreau enveloppe
+Look at http://www.control.lth.se/media/Education/DoctorateProgram/2015/LargeScaleConvexOptimization/Lectures/cvx_fcn.pdf
+
+
 <div id="solve-campaigns"></div>
 
 You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `bundle exec jekyll serve`, which $\int_0^\infty x^2$ launches a web server and auto-regenerates your site when a file is updated
