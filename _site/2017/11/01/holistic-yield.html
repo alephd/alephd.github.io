@@ -151,7 +151,7 @@ Because of the complexity of the online advertising ecosystem, and because the p
 
 <p><span></span><dt-cite key="ghosh2009bidding"></dt-cite>, <dt-cite key="chen2014dynamic"></dt-cite>, <dt-cite key="chen2016risk"></dt-cite> and <dt-cite key="balseiro2014yield"></dt-cite> study the joint optimization of the publisher revenue coming from <em>RTB</em> and <em>direct</em>. They consider a setting similar to our setting, in which the publisher bids in auctions to compete with <em>RTB</em> bidders.</p>
 
-<p>In <dt-cite key="ghosh2009bidding"></dt-cite>, the quality of a direct campaign delivery is represented by a utility function, and the quality of each impression is linked directly to its price in the <em>RTB</em> market, whereas we characterize a campaign delivery by some KPIs.</p>
+<p>In <dt-cite key="ghosh2009bidding"></dt-cite>, the quality of a direct campaign delivery is represented by a utility function, and the quality of each impression is linked directly to its price in the <em>RTB</em> market, whereas we characterize a campaign delivery by some KPIs. <dt-cite key="kitts2017ad"></dt-cite> decribes an approach to target KPIs by minimizing some penalty function related to the distance to the goals.</p>
 
 <p>The model used in <dt-cite key="chen2014dynamic"></dt-cite> and <dt-cite key="chen2016risk"></dt-cite> is based on the modeling of the supply and the demand on an aggregated level, while we analyze data auction per auction without needing to model the supply and demand.</p>
 
@@ -167,15 +167,109 @@ Look at http://www.control.lth.se/media/Education/DoctorateProgram/2015/LargeSca
 
 <div id="solve-campaigns"></div>
 
-<p>You’ll find this post in your <code class="highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="highlighter-rouge">bundle exec jekyll serve</code>, which $\int_0^\infty x^2$ launches a web server and auto-regenerates your site when a file is updated</p>
+<h2 id="the-optimisation-problem-statement">The optimisation problem statement</h2>
 
-<p>We can also cite <dt-cite key="balseiro2014yield"></dt-cite> external publications.</p>
+<div class="kdmath">$$
+\max_{(a_n),(q_{n,k}),(v_{k,i})} \left(\sum_{n=1}^N r_n(a_n) + \sum_{k=1}^K \left( \pi_k - L_k(v_{k,1}-g_{k,1},\ldots,v_{k,p_k}-g_{k,p_k})\right) \right)
+$$</div>
 
-<p>We can also cite <dt-cite key="roels2009dynamic"></dt-cite> external publications.</p>
+<p>s.t</p>
 
-<p>We can also cite <dt-cite key="kitts2017ad"></dt-cite> external publications.</p>
+<div class="kdmath">$$
+\forall k,i \text{ } v_{k,i}=\sum_{n=1}^N F_n(a_n)q_{n,k}\theta_{n,k,i}
+$$</div>
 
-<p>To add new posts, simply add a file in the <code class="highlighter-rouge">_posts</code> directory that follows the convention <code class="highlighter-rouge">YYYY-MM-DD-name-of-post.ext</code> and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.</p>
+<div class="kdmath">$$
+\forall n \text{ } \sum_{k=1}^K q_{n,k}=1
+$$</div>
+
+<div class="kdmath">$$
+\forall n,k \text{ } q_{n,k} \geq 0
+$$</div>
+
+<p>For the sake of simplicity the loss functions are chosen as the sum of piecewise-linear (ramp) functions:
+The problem can then be simplified to:</p>
+
+<div class="kdmath">$$
+\max_{(a_n),(q_{n,k}),(v_{k,i})} \left(\sum_{n=1}^N r_n(a_n) + \sum_{k=1}^K \left( \pi_k + \sum_{i=1}^{p_k}\lambda_{k,i}\min(v_{k,i}-g_{k,i},0) \right) \right.
+$$</div>
+
+<div class="kdmath">$$
+- \sum_{k=1}^K \sum_{i=1}^{p_k} \chi_{\{0\}}\left(v_{k,i}-\sum_{n=1}^N F_n(a_n)q_{n,k}\theta_{n,k,i}\right)
+$$</div>
+
+<div class="kdmath">$$
+- \sum_{n=1}^N \chi_{\{0\}}\left(\sum_{k=1}^K q_{n,k}-1\right)
+$$</div>
+
+<div class="kdmath">$$
+\left. - \sum_{n=1}^N\sum_{k=1}^K \chi_{\mathbb{R^+}}\left(q_{n,k}\right) \right)
+$$</div>
+
+<p>Where $\chi_{S}$ is the characteristic function of the set $S$ ($\chi_S(x)=0$ when $x \in S$ and $\chi_S(x)=+\infty$ when $x \notin S$ )</p>
+
+<p>We relax indefinite and non-differentiable functions, using Moreau enveloppes, as follow:</p>
+
+<div class="kdmath">$$
+\max_{(a_n),(q_{n,k}),(v_{k,i})} \left(\sum_{n=1}^N r_n(a_n) + \sum_{k=1}^K \left( \pi_k + \sum_{i=1}^{p_k}\max_y\left(\lambda_{k,i}\min(y,0) - \frac{\beta_\lambda}{2}\left(v_{k,i}-g_{k,i} - y\right)^2 \right) \right) \right.
+$$</div>
+
+<div class="kdmath">$$
++ \sum_{k=1}^K \sum_{i=1}^{p_k} \max_y\left(-\chi_{\{0\}}\left(y\right) - \frac{\beta_v}{2}\left(v_{k,i}-\sum_{n=1}^N F_n(a_n)q_{n,k}\theta_{n,k,i}-y\right)^2 \right)
+$$</div>
+
+<div class="kdmath">$$
++ \sum_{n=1}^N \max_y\left(-\chi_{\{0\}}\left(y\right)-\frac{\beta_1}{2}\left(\sum_{k=1}^K q_{n,k}-1 - y\right)^2\right)
+$$</div>
+
+<div class="kdmath">$$
+\left. + \sum_{n=1}^N\sum_{k=1}^K \max_y\left(-\chi_{\mathbb{R^+}}\left(y\right) - \frac{\beta_0}{2}\left(q_{n,k}-y\right)^2\right) \right)
+$$</div>
+
+<p>It simplifies to:</p>
+
+<div class="kdmath">$$
+\max_{(a_n),(q_{n,k}),(v_{k,i})}\mathcal{M} = \max_{(a_n),(q_{n,k}),(v_{k,i})} \left(\sum_{n=1}^N r_n(a_n) + \sum_{k=1}^K \left( \pi_k \right.\right.
+$$</div>
+
+<div class="kdmath">$$
+\left. + \sum_{i=1}^{p_k} \left( \lambda_{k,i}\left(v_{k,i}-g_{k,i}+\frac{\lambda_{k,i}}{2\beta_\lambda}\right)\mathbb{1}_{v_{k,i} \lt g_{k,i}-\frac{\lambda_{k,i}}{\beta_\lambda}} - \frac{\beta_\lambda}{2}\left(v_{k,i}-g_{k,i}\right)^2\mathbb{1}_{g_{k,i}-\frac{\lambda_{k,i}}{\beta_\lambda} \leq v_{k,i} \lt g_{k,i}} \right) \right)
+$$</div>
+
+<div class="kdmath">$$
+- \frac{\beta_v}{2}\sum_{k=1}^K \sum_{i=1}^{p_k} \left(v_{k,i}-\sum_{n=1}^N F_n(a_n)q_{n,k}\theta_{n,k,i}\right)^2
+$$</div>
+
+<div class="kdmath">$$
+\left. - \frac{\beta_1}{2}\sum_{n=1}^N \left(\sum_{k=1}^K q_{n,k}-1\right)^2 - \frac{\beta_0}{2}\sum_{n=1}^N\sum_{k=1}^K q_{n,k}^2 \mathbb{1}_{q_{n,k}<0}\right)
+$$</div>
+
+<p>The first order conditions for $a_n$ and $q_{n,k}$ can be written:</p>
+
+<div class="kdmath">$$
+r_n'(a_n) + \beta_vf_n(a_n)\sum_{k=1}^K q_{n,k} \sum_{i=1}^{p_k} \theta_{n,k,i}\left(v_{k,i} - \sum_{n=1}^N F_n(a_n)q_{n,k}\theta_{n,k,i}\right) = 0
+$$</div>
+
+<div class="kdmath">$$
+\beta_v F_n(a_n) \sum_{i=1}^{p_k} \theta_{n,k,i}\left(v_{k,i}-\sum_{n=1}^N F_n(a_n)q_{n,k}\theta_{n,k,i}\right)
+- \beta_1 \left(\sum_{k=1}^K q_{n,k}-1\right) - \beta_0 q_{n,k} \mathbb{1}_{q_{n,k}<0} = 0
+$$</div>
+
+<p>The components of the gradient of $\mathcal{M}$ can be written :</p>
+
+<div class="kdmath">$$
+\frac{\partial \mathcal{M}}{\partial a_n} = r_n'(a_n) + \beta_vf_n(a_n)\sum_{k=1}^K q_{n,k} \sum_{i=1}^{p_k} \theta_{n,k,i}\left(v_{k,i} - \sum_{n=1}^N F_n(a_n)q_{n,k}\theta_{n,k,i}\right)
+$$</div>
+
+<div class="kdmath">$$
+\frac{\partial \mathcal{M}}{\partial q_{n,k}} = \beta_v F_n(a_n) \sum_{i=1}^{p_k} \theta_{n,k,i}\left(v_{k,i}-\sum_{n=1}^N F_n(a_n)q_{n,k}\theta_{n,k,i}\right)
+- \beta_1 \left(\sum_{k=1}^K q_{n,k}-1\right) - \beta_0 q_{n,k} \mathbb{1}_{q_{n,k}<0}
+$$</div>
+
+<div class="kdmath">$$
+\frac{\partial \mathcal{M}}{\partial v_{k,i}} = \lambda_{k,i}\mathbb{1}_{v_{k,i} \lt g_{k,i} - \frac{\lambda_{k,i}}{\beta_\lambda}} - \beta_\lambda\left(v_{k,i}-g_{k,i}\right)\mathbb{1}_{g_{k,i}-\frac{\lambda_{k,i}}{\beta_\lambda} \leq v_{k,i} \lt g_{k,i}}
+-\beta_v \left(v_{k,i}-\sum_{n=1}^N F_n(a_n)q_{n,k}\theta_{n,k,i}\right)
+$$</div>
 
 <script src="/assets/holistic_yield/globals.js"></script>
 
