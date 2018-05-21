@@ -1,5 +1,5 @@
 // Main app script
-var require = d3.requireFrom(name => '/js/'+name+'.js');
+var require = d3.requireFrom(name => 'js/'+name+'.js');
 require('d3', 'plot').then(d3 => {
   // Plot the payoff function
   payoff = new d3.Payoff('#payoff', '#payoff-value-control', '#payoff-floor-control', '#payoff-bid-control');

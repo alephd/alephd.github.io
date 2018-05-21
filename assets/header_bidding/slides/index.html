@@ -1,10 +1,10 @@
 <html>
 
 <head>
-  <link rel="stylesheet" href="/css/reveal.css">
-  <link rel="stylesheet" href="/css/theme/white.css">
-  <link rel="stylesheet" href="/lib/css/zenburn.css">
-  <!--link rel="stylesheet" href="/css/print/pdf.css"-->
+  <link rel="stylesheet" href="css/reveal.css">
+  <link rel="stylesheet" href="css/theme/white.css">
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+  <!--link rel="stylesheet" href="css/print/pdf.css"-->
 </head>
 
 <body>
@@ -123,8 +123,8 @@
       </section>
     </div>
   </div>
-  <script src="/lib/js/head.min.js"></script>
-  <script src="/js/reveal.js"></script>
+  <script src="lib/js/head.min.js"></script>
+  <script src="js/reveal.js"></script>
   <script>
     Reveal.initialize({
       controls: true,
@@ -132,24 +132,24 @@
       history: true,
       center: true,
       transition: 'slide', // none/fade/slide/convex/concave/zoom
-      dependencies: [{src: '/lib/js/classList.js', condition: function() {
+      dependencies: [{src: 'lib/js/classList.js', condition: function() {
           return !document.body.classList;
         }},
-        {src: '/plugin/markdown/marked.js', condition: function() {
+        {src: 'plugin/markdown/marked.js', condition: function() {
           return !!document.querySelector('[data-markdown]');
         }},
-        {src: '/plugin/markdown/markdown.js', condition: function() {
+        {src: 'plugin/markdown/markdown.js', condition: function() {
           return !!document.querySelector('[data-markdown]');
         }},
-        {src: '/plugin/highlight/highlight.js', async: true, callback: function() {
+        {src: 'plugin/highlight/highlight.js', async: true, callback: function() {
           hljs.initHighlightingOnLoad();
         }},
-        {src: '/plugin/search/search.js', async: true},
-        {src: '/plugin/zoom-js/zoom.js', async: true},
-        {src: '/plugin/notes/notes.js', async: true},
-        {src: '/plugin/math/math.js', async: true},
-        {src: '/js/d3-require.js', async: true},
-        {src: '/js/app.js', async: true}
+        {src: 'plugin/search/search.js', async: true},
+        {src: 'plugin/zoom-js/zoom.js', async: true},
+        {src: 'plugin/notes/notes.js', async: true},
+        {src: 'plugin/math/math.js', async: true},
+        {src: 'js/d3-require.js', async: true},
+        {src: 'js/app.js', async: true}
       ]
     });
   </script>
