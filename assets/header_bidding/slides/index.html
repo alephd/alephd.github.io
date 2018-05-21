@@ -1,0 +1,158 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="/css/reveal.css">
+  <link rel="stylesheet" href="/css/theme/white.css">
+  <link rel="stylesheet" href="/lib/css/zenburn.css">
+  <!--link rel="stylesheet" href="/css/print/pdf.css"-->
+</head>
+
+<body>
+  <!--
+  Plan
+
+  Optimal bidding vs blind Bidding
+  ASAP strategy for goal_imp
+  optimal strategy for goal_imp
+
+  Bidding strategy
+  bid = a_imp + a_v p_v
+  adjust goal_imp and goal_v manualy show a_imp, a_v, imp, v and cost
+
+  Planning
+  Solve for overlapping campaigns
+  set end_a and start_b for campaign a and b
+  set goal_imp,a and goal_imp,b and panalty_a and penalty_b
+  show
+
+  -->
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h1>Optimal Header Bidding</h1>
+        <h2>Using Thompson Sampling</h2>
+      </section>
+
+      <section>
+        <h2>Payoff</h2>
+        <div id="payoff-control" style="width:30%; height:400px; margin:0; padding:0; float:left; font-size:50%">
+          <ul><li id="payoff-value-control">
+            <p>Value</p>
+            <input type="range" min="0" max="50" value="20" step="any" class="slider">
+          </li><li id="payoff-floor-control">
+            <p>Next</p>
+            <input type="range" min="0" max="50" value="5" step="any" class="slider">
+          </li><li id="payoff-bid-control">
+            <p>Bid</p>
+            <input type="range" min="0" max="50" value="10" step="any" class="slider">
+          </li></ul>
+        </div>
+        <div id="payoff" style="width:70%; height:400px; margin:0; padding:0; float:left;"></div>
+        <div style="clear:both"/>
+      </section>
+
+      <section>
+        <h2>Expected payoff</h2>
+        <div id="expected-payoff-control" style="width:30%; height:400px; margin:0; padding:0; float:left; font-size:50%">
+          <ul><li id="expected-payoff-value-control">
+            <p>Value</p>
+            <input type="range" min="0" max="50" value="20" step="any" class="slider">
+          </li><li id="expected-payoff-floor-control">
+            <p>Mu/Sigma</p>
+            <input id="expected-payoff-mu-control" type="range" min="0" max="50" value="5" step="any" class="slider">
+            <input id="expected-payoff-sigma-control" type="range" min="0" max="2" value="0" step="any" class="slider">
+          </li><li id="expected-payoff-bid-control">
+            <p>Bid</p>
+            <input type="range" min="0" max="50" value="10" step="any" class="slider">
+          </li></ul>
+        </div>
+        <div id="expected-payoff" style="width:70%; height:400px; margin:0; padding:0; float:left;"></div>
+        <div style="clear:both"/>
+      </section>
+
+      <section>
+        <h2>Particle Representation</h2>
+        <div id="particle-representation-control" style="width:30%; height:400px; margin:0; padding:0; float:left; font-size:50%">
+          <ul><li id="particle-representation-floor-control">
+            <p>Mu/Sigma</p>
+            <input id="particle-representation-mu-control" type="range" min="0" max="5" value="1" step="any" class="slider">
+            <input id="particle-representation-sigma-control" type="range" min="0" max="5" value="1" step="any" class="slider">
+          </li><li id="particle-representation-noise-resampling-control">
+            <p>Noise/Resampling</p>
+            <input id="particle-representation-noise-control" type="range" min="0" max="0.01" value="0.002" step="any" class="slider">
+            <input id="particle-representation-resampling-control" type="range" min="0" max="1" value="0.1" step="any" class="slider">
+          </li><li id="particle-representation-speed-control">
+            <p>Speed</p>
+            <input type="range" min="1" max="100" value="10" step="any" class="slider">
+          </li></ul>
+        </div>
+        <div id="particle-representation" style="width:70%; height:400px; margin:0; padding:0; float:left; font-size:50%"></div>
+        <div style="clear:both"/>
+      </section>
+
+      <section>
+        <h2>Slide 2</h2>
+        <p>
+          stylesheet
+          $$ x^2$$
+          \[\begin{aligned} \dot{x} &amp; = \sigma(y-x) \\ \dot{y} &amp; = \rho x - y - xz \\ \dot{z} &amp; = -\beta z + xy \end{aligned} \]
+        </p>
+      </section>
+
+      <section data-markdown>
+        <textarea data-template>
+        ## Markdown support
+        Write content using inline or external Markdown.
+        Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
+        </textarea>
+      </section>
+
+      <section>
+        <h2>A list</h2>
+        <ul>
+          <li>Abcd</li>
+          <li>Abcd</li>
+          <li>Abcd</li>
+          <li>Abcd</li>
+          <li>Abcd</li>
+          <li>Abcd</li>
+          <li>Abcd</li>
+          <li>Abcd</li>
+          <li>Abcd</li>
+        </ul>
+      </section>
+    </div>
+  </div>
+  <script src="/lib/js/head.min.js"></script>
+  <script src="/js/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      history: true,
+      center: true,
+      transition: 'slide', // none/fade/slide/convex/concave/zoom
+      dependencies: [{src: '/lib/js/classList.js', condition: function() {
+          return !document.body.classList;
+        }},
+        {src: '/plugin/markdown/marked.js', condition: function() {
+          return !!document.querySelector('[data-markdown]');
+        }},
+        {src: '/plugin/markdown/markdown.js', condition: function() {
+          return !!document.querySelector('[data-markdown]');
+        }},
+        {src: '/plugin/highlight/highlight.js', async: true, callback: function() {
+          hljs.initHighlightingOnLoad();
+        }},
+        {src: '/plugin/search/search.js', async: true},
+        {src: '/plugin/zoom-js/zoom.js', async: true},
+        {src: '/plugin/notes/notes.js', async: true},
+        {src: '/plugin/math/math.js', async: true},
+        {src: '/js/d3-require.js', async: true},
+        {src: '/js/app.js', async: true}
+      ]
+    });
+  </script>
+</body>
+
+</html>
