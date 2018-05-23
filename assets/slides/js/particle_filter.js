@@ -15,7 +15,7 @@ define('particle_filter', ['d3', 'jstat'], function (d3, jstat) {
     }
     // Obs is won or lost
     likelihood(action, obs) {
-      if (obs) return jstat.lognormal.cdf(action, this.mu, this.sigma);
+      if (obs.won) return jstat.lognormal.cdf(action, this.mu, this.sigma);
       else return 1-jstat.lognormal.cdf(action, this.mu, this.sigma);
     }
     // update
@@ -73,7 +73,8 @@ define('particle_filter', ['d3', 'jstat'], function (d3, jstat) {
       }
     }
     action(value) {
-      let unif_sample = d3.range(10).map(i => jstat.uniform.sample(0,50)).sort((a,b) => (a-b));
+      // We naver choose to bid more than value
+      let unif_sample = d3.range(100).map(i => jstat.uniform.sample(0,value)).sort((a,b) => (a-b));
       let sample = this.sample(1)[0];
       let max_action = 0;
       let max_payoff = 0;
@@ -112,20 +113,72 @@ define('particle_filter', ['d3', 'jstat'], function (d3, jstat) {
   }
   // Model generating experiment
   class Model {
-    constructor(mu, sigma, value) {
+    constructor(mu, sigma) {
       this.mu = mu;
       this.sigma = sigma;
-      this.value = value;
+    }
+    update() {
+      this.value = jstat.lognormal.sample(Math.log(20), 1);
+      this.floor = jstat.lognormal.sample(this.mu, this.sigma);
     }
     experiment(action) {
-      let floor = jstat.lognormal.sample(this.mu, this.sigma);
-      return new Experiment(action > floor ? this.value-action : 0, action > floor);
+      return new Experiment(action > this.floor, action > this.floor ? this.value-action : 0);
     }
   }
+
+  class UCB {
+    constructor(J = 100, discount = 0.99, ksi = 1, bound = 50) {
+      this.J = J;
+      this.discount = discount;
+      this.ksi = ksi;
+      this.bound = bound;
+      this.X = d3.range(this.J).map(j => 0);
+      this.N = d3.range(this.J).map(j => 1);
+      this.C = d3.range(this.J).map(j => 0);
+    }
+    action(value) {
+      let max_action = 0;
+      let max_payoff = 0;
+
+      d3.range(this.J).forEach(j => {
+        let payoff = this.X[j]/this.N[j] + this.C[j];
+        if (payoff>max_payoff) {
+          max_payoff = payoff;
+          max_action = j;
+        }
+      });
+      return max_action*value/this.J;
+    }
+    update(action, obs, value, J) {
+      if (this.J != J) {
+        console.log(this.J);
+        this.J = J;
+        this.X = d3.range(this.J).map(j => 0);
+        this.N = d3.range(this.J).map(j => 1);
+        this.C = d3.range(this.J).map(j => 0);
+      }
+      // Update
+      let a = Math.round(action*this.J/value);
+      let n = 0;
+      d3.range(this.J).forEach(j => {
+        this.N[j] = this.discount * this.N[j];
+        n += this.N[j];
+        this.X[j] = this.discount * this.X[j];
+      });
+      this.N[a] += 1;
+      n += 1;
+      this.X[a] += obs.paid;
+      d3.range(this.J).forEach(j => {
+        this.C[j] = 2*this.bound*Math.sqrt(this.ksi * Math.log(n)/this.N[j]);
+      });
+    }
+  }
+
   return {
     'Particle':Particle,
     'ParticleFilter':ParticleFilter,
     'Experiment':Experiment,
-    'Model':Model
+    'Model':Model,
+    'UCB':UCB
   };
 });

@@ -10,9 +10,11 @@ define('plot', ['d3', 'jstat', 'particle_filter'], function (d3, jstat, pf) {
   class Chart {
     constructor(div) {
       this.div = d3.select(div);
-      this.width = parseInt(window.getComputedStyle(this.div.node()).width, 10) || 800;
-      this.height = parseInt(window.getComputedStyle(this.div.node()).height, 10) || 600;
-      this.margin = {'left':50, 'right':10, 'bottom':50, 'top':10};
+      // this.width = parseInt(window.getComputedStyle(this.div.node()).width, 10);
+      // this.height = parseInt(window.getComputedStyle(this.div.node()).height, 10);
+      this.width = 900;
+      this.height = 600;
+      this.margin = {'left':50, 'right':20, 'bottom':50, 'top':20};
       this.svg = this.div.append('svg').attr('width', this.width).attr('height', this.height);
     }
     setView(left, right, bottom, top) {
@@ -195,8 +197,7 @@ define('plot', ['d3', 'jstat', 'particle_filter'], function (d3, jstat, pf) {
       this.resampling_control = d3.select(resampling_control);
       this.speed_control = d3.select(speed_control);
       this.particle_filter = new pf.ParticleFilter(1000);
-      this.value = 30;
-      this.model = new pf.Model(1, 1, this.value);
+      this.model = new pf.Model(1, 1);
     }
     setControls() {
       this.mu = parseFloat(this.mu_control.property('value'));
@@ -229,6 +230,7 @@ define('plot', ['d3', 'jstat', 'particle_filter'], function (d3, jstat, pf) {
       // Update the model
       this.model.mu = this.mu;
       this.model.sigma = this.sigma;
+      this.model.update();
       // Update the particle filter
       this.particle_filter.noise = this.noise;
       this.particle_filter.min_degeneracy = this.resampling*this.particle_filter.n;
@@ -241,10 +243,9 @@ define('plot', ['d3', 'jstat', 'particle_filter'], function (d3, jstat, pf) {
       .attr('cy', d => this.scale.y(d.sigma));
     }
     step() {
-      // let action = jstat.lognormal.sample(this.mu, this.sigma);
-      let action = this.particle_filter.action(this.value);
+      let action = this.particle_filter.action(this.model.value);
       let experiment = this.model.experiment(action);
-      this.particle_filter.update(action, experiment.won);
+      this.particle_filter.update(action, experiment);
       this.update();
       d3.timeout(() => this.step(), 1000/this.speed);
     }
@@ -280,12 +281,157 @@ define('plot', ['d3', 'jstat', 'particle_filter'], function (d3, jstat, pf) {
       this.step();
     }
   }
+  /*
+   * Performance chart
+   */
+  class Performance extends Chart {
+    constructor(div, mu_control, sigma_control, noise_control, resampling_control, J_control, discount_control, speed_control) {
+      super(div);
+      this.mu_control = d3.select(mu_control);
+      this.sigma_control = d3.select(sigma_control);
+
+      this.noise_control = d3.select(noise_control);
+      this.resampling_control = d3.select(resampling_control);
+      this.speed_control = d3.select(speed_control);
+      this.particle_filter = new pf.ParticleFilter(1000);
+
+      this.J_control = d3.select(J_control);
+      this.discount_control = d3.select(discount_control);
+      this.discount = 0.99;
+      this.J = 100;
+      this.ucb = new pf.UCB(this.J, this.discount, 1, 50);
+      this.ref_J = 100;
+      this.reference = new pf.UCB(this.ref_J, this.discount, 1, 50);
+
+      this.model = new pf.Model(1, 1);
+      // Revenue measurement
+      this.revenue_length = 5000;
+      this.revenue_smoothing = 0.995;
+      this.revenue_particle_filter = [0];
+      this.revenue_ucb = [0];
+      this.revenue_reference = [0];
+    }
+    setControls() {
+      this.mu = parseFloat(this.mu_control.property('value'));
+      this.mu_control.on('input', () => {
+        this.mu = parseFloat(this.mu_control.property('value'));
+        this.update();
+      });
+      this.sigma = parseFloat(this.sigma_control.property('value'));
+      this.sigma_control.on('input', () => {
+        this.sigma = parseFloat(this.sigma_control.property('value'));
+        this.update();
+      });
+      this.noise = parseFloat(this.noise_control.property('value'));
+      this.noise_control.on('input', () => {
+        this.noise = parseFloat(this.noise_control.property('value'));
+        this.update();
+      });
+      this.resampling = parseFloat(this.resampling_control.property('value'));
+      this.resampling_control.on('input', () => {
+        this.resampling = parseFloat(this.resampling_control.property('value'));
+        this.update();
+      });
+      this.J = parseFloat(this.J_control.select('input').property('value'));
+      this.J_control.select('input').on('input', () => {
+        this.J = parseFloat(this.J_control.select('input').property('value'));
+        this.update();
+      });
+      this.discount = parseFloat(this.discount_control.select('input').property('value'));
+      this.discount_control.select('input').on('input', () => {
+        this.discount = parseFloat(this.discount_control.select('input').property('value'));
+        this.update();
+      });
+      this.speed = parseFloat(this.speed_control.select('input').property('value'));
+      this.speed_control.select('input').on('input', () => {
+        this.speed = parseFloat(this.speed_control.select('input').property('value'));
+        this.update();
+      });
+    }
+    update() {
+      // Update the model
+      this.model.mu = this.mu;
+      this.model.sigma = this.sigma;
+      this.model.update();
+      // Update the particle filter
+      this.particle_filter.noise = this.noise;
+      this.particle_filter.min_degeneracy = this.resampling*this.particle_filter.n;
+      // Update UCB
+      this.ucb.discount = this.discount;
+      // Update the particle filter graph
+      this.curve_particle_filter.datum(this.revenue_particle_filter)
+      .attr('d', d3.line().x((d, i) => this.scale.x(i)).y(d => this.scale.y(d)));
+      // Update the ucb graph
+      this.curve_ucb.datum(this.revenue_ucb)
+      .attr('d', d3.line().x((d, i) => this.scale.x(i)).y(d => this.scale.y(d)));
+      // Update the reference graph
+      this.curve_reference.datum(this.revenue_reference)
+      .attr('d', d3.line().x((d, i) => this.scale.x(i)).y(d => this.scale.y(d)));
+      // Update labels
+      this.J_control.select('p').text(`J = ${d3.format("d")(this.J)}`);
+      this.discount_control.select('p').text(`discount = ${d3.format(".3f")(this.discount)}`);
+    }
+    step() {
+      // Particle filter
+      let action_particle_filter = this.particle_filter.action(this.model.value);
+      // console.log(`PF: ${action_particle_filter}`)
+      let experiment_particle_filter = this.model.experiment(action_particle_filter);
+      this.particle_filter.update(action_particle_filter, experiment_particle_filter);
+      this.revenue_particle_filter.push((1-this.revenue_smoothing)*experiment_particle_filter.paid + this.revenue_smoothing*this.revenue_particle_filter[this.revenue_particle_filter.length-1]);
+      while (this.revenue_particle_filter.length > this.revenue_length) {
+        this.revenue_particle_filter.shift();
+      }
+      // UCB
+      let action_ucb = this.ucb.action(this.model.value)
+      // console.log(`UCB: ${action_ucb}`)
+      let experiment_ucb = this.model.experiment(action_ucb);
+      this.ucb.update(action_ucb, experiment_ucb, this.model.value, this.J);
+      this.revenue_ucb.push((1-this.revenue_smoothing)*experiment_ucb.paid + this.revenue_smoothing*this.revenue_ucb[this.revenue_ucb.length-1]);
+      while (this.revenue_ucb.length > this.revenue_length) {
+        this.revenue_ucb.shift();
+      }
+      // reference
+      let action_reference = this.reference.action(this.model.value)
+      let experiment_reference = this.model.experiment(action_reference);
+      this.reference.update(action_reference, experiment_reference, this.model.value, this.ref_J);
+      this.revenue_reference.push((1-this.revenue_smoothing)*experiment_reference.paid + this.revenue_smoothing*this.revenue_reference[this.revenue_reference.length-1]);
+      while (this.revenue_reference.length > this.revenue_length) {
+        this.revenue_reference.shift();
+      }
+      this.update();
+      d3.timeout(() => this.step(), 1000/this.speed);
+    }
+    plot() {
+      this.setView(0, this.revenue_length, 0, 40);
+      this.setAxis();
+      this.setControls();
+      // Build the graph
+      this.curve_particle_filter = this.view.g.append('path')
+      .style('stroke', red).style('stroke-width', 2).style('fill', 'none')
+      .datum(this.revenue_particle_filter)
+      .attr('d', d3.line().x((d, i) => this.scale.x(i)).y(d => this.scale.y(d)));
+      // Build the graph for ucb
+      this.curve_ucb = this.view.g.append('path')
+      .style('stroke', orange).style('stroke-width', 2).style('fill', 'none')
+      .datum(this.revenue_ucb)
+      .attr('d', d3.line().x((d, i) => this.scale.x(i)).y(d => this.scale.y(d)));
+      // Build the graph for reference
+      this.curve_reference = this.view.g.append('path')
+      .style('stroke', blue).style('stroke-width', 2).style('fill', 'none')
+      .datum(this.revenue_reference)
+      .attr('d', d3.line().x((d, i) => this.scale.x(i)).y(d => this.scale.y(d)));
+      // Start steps
+      this.step();
+    }
+  }
+  // DEBUG
   dt = d3;
   jst = jstat;
   return {
     'Chart':Chart,
     'Payoff':Payoff,
     'ExpectedPayoff':ExpectedPayoff,
-    'ParticleRepresentation':ParticleRepresentation
+    'ParticleRepresentation':ParticleRepresentation,
+    'Performance':Performance
   };
 });

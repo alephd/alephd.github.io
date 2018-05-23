@@ -34,8 +34,44 @@
       </section>
 
       <section>
+        <h2>Ad tech</h2>
+        <p>~$300bn digital ad spending</p>
+        <ul>
+          <li>~$300bn digital ad spending</li>
+          <li>Soon (2020?) 50% of all media spending</li>
+          <li>Abcd</li>
+          <li>Abcd</li>
+          <li>Abcd</li>
+          <li>Abcd</li>
+          <li>Abcd</li>
+          <li>Abcd</li>
+          <li>Abcd</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>The SSP</h2>
+        <img src="figures/SSP.svg" style="border:0; box-shadow: 0 0 0;"></img>
+      </section>
+
+      <section>
+        <h2>SSP competition</h2>
+        <img src="figures/Header bidding.svg" style="border:0; box-shadow: 0 0 0;"></img>
+      </section>
+
+      <section>
+        <h2>The header bidding problem</h2>
+        <ul>
+          <li>Abcd</li>
+          <li>Abcd</li>
+          <li>Abcd</li>
+          <li>Abcd</li>
+        </ul>
+      </section>
+
+      <section>
         <h2>Payoff</h2>
-        <div id="payoff-control" style="width:30%; height:400px; margin:0; padding:0; float:left; font-size:50%">
+        <div id="payoff-control" style="width:30%; height:100%; margin:0; padding:0; float:left; font-size:50%">
           <ul><li id="payoff-value-control">
             <p>Value</p>
             <input type="range" min="0" max="50" value="20" step="any" class="slider">
@@ -47,13 +83,13 @@
             <input type="range" min="0" max="50" value="10" step="any" class="slider">
           </li></ul>
         </div>
-        <div id="payoff" style="width:70%; height:400px; margin:0; padding:0; float:left"></div>
+        <div id="payoff" style="width:70%; height:100%; margin:0; padding:0; float:left"></div>
         <div style="clear:both"/>
       </section>
 
       <section>
         <h2>Expected payoff</h2>
-        <div id="expected-payoff-control" style="width:30%; height:400px; margin:0; padding:0; float:left; font-size:50%">
+        <div id="expected-payoff-control" style="width:30%; height:100%; margin:0; padding:0; float:left; font-size:50%">
           <ul><li id="expected-payoff-value-control">
             <p>Value</p>
             <input type="range" min="0" max="50" value="20" step="any" class="slider">
@@ -66,13 +102,13 @@
             <input type="range" min="0" max="50" value="10" step="any" class="slider">
           </li></ul>
         </div>
-        <div id="expected-payoff" style="width:70%; height:400px; margin:0; padding:0; float:left"></div>
+        <div id="expected-payoff" style="width:70%; height:100%; margin:0; padding:0; float:left"></div>
         <div style="clear:both"/>
       </section>
 
       <section>
         <h2>Particle Representation</h2>
-        <div id="particle-representation-control" style="width:30%; height:400px; margin:0; padding:0; float:left; font-size:50%">
+        <div id="particle-representation-control" style="width:30%; height:100%; margin:0; padding:0; float:left; font-size:50%">
           <ul><li id="particle-representation-floor-control">
             <p>Mu/Sigma</p>
             <input id="particle-representation-mu-control" type="range" min="0" max="5" value="1" step="any" class="slider">
@@ -86,7 +122,33 @@
             <input type="range" min="1" max="100" value="10" step="any" class="slider">
           </li></ul>
         </div>
-        <div id="particle-representation" style="width:70%; height:400px; margin:0; padding:0; float:left"></div>
+        <div id="particle-representation" style="width:70%; height:100%; margin:0; padding:0; float:left"></div>
+        <div style="clear:both"/>
+      </section>
+
+      <section>
+        <h2>Performance</h2>
+        <div id="performance-control" style="width:30%; height:100%; margin:0; padding:0; float:left; font-size:50%">
+          <ul><li id="performance-floor-control">
+            <p>Mu/Sigma</p>
+            <input id="performance-mu-control" type="range" min="0" max="5" value="1" step="any" class="slider">
+            <input id="performance-sigma-control" type="range" min="0" max="5" value="1" step="any" class="slider">
+          </li><li id="performance-noise-resampling-control">
+            <p>Noise/Resampling</p>
+            <input id="performance-noise-control" type="range" min="0" max="0.01" value="0.002" step="any" class="slider">
+            <input id="performance-resampling-control" type="range" min="0" max="1" value="0.1" step="any" class="slider">
+          </li><li id="performance-J-control">
+            <p>J</p>
+            <input type="range" min="1" max="1000" value="100" step="1" class="slider">
+          </li><li id="performance-discount-control">
+            <p>Discount</p>
+            <input type="range" min="0.99" max="1" value="0.99" step="any" class="slider">
+          </li><li id="performance-speed-control">
+            <p>Speed</p>
+            <input type="range" min="1" max="100" value="10" step="any" class="slider">
+          </li></ul>
+        </div>
+        <div id="performance" style="width:70%; height:100%; margin:0; padding:0; float:left"></div>
         <div style="clear:both"/>
       </section>
 

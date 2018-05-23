@@ -39,8 +39,10 @@
 
 			// The "normal" size of the presentation, aspect ratio will be preserved
 			// when the presentation is scaled to fit different resolutions
-			width: 960,
-			height: 700,
+			// width: 960,
+			// height: 700,
+			width: 1280,
+			height: 960,
 
 			// Factor of the display size that should remain empty around the content
 			margin: 0.04,
@@ -390,6 +392,7 @@
 		// xbrowser quirks so we only use it in whitelsited browsers.
 		features.zoom = 'zoom' in testElement.style && !isMobileDevice &&
 						( isChrome || /Version\/[\d\.]+.*Safari/.test( UA ) );
+		features.zoom = false;// NG zoom breaks the mouse localization
 
 	}
 
