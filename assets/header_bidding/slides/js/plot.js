@@ -12,9 +12,9 @@ define('plot', ['d3', 'jstat', 'particle_filter'], function (d3, jstat, pf) {
       this.div = d3.select(div);
       // this.width = parseInt(window.getComputedStyle(this.div.node()).width, 10);
       // this.height = parseInt(window.getComputedStyle(this.div.node()).height, 10);
-      this.width = 900;
+      this.width = 800;
       this.height = 600;
-      this.margin = {'left':50, 'right':20, 'bottom':50, 'top':20};
+      this.margin = {'left':20, 'right':20, 'bottom':20, 'top':20};
       this.svg = this.div.append('svg').attr('width', this.width).attr('height', this.height);
     }
     setView(left, right, bottom, top) {

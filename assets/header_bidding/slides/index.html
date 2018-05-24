@@ -31,27 +31,44 @@
       <section>
         <h1>Optimal Header Bidding</h1>
         <h2>Using Thompson Sampling</h2>
+        <span style="margin-right:100px">
+          <img src="figures/Oath.svg" style="border:0; box-shadow: 0 0 0"></img>
+        </span>
+        <span>
+          <img src="figures/AlephD.png" style="border:0; box-shadow: 0 0 0"></img>
+        </span>
       </section>
 
       <section>
         <h2>Ad tech</h2>
-        <p>~$300bn digital ad spending</p>
         <ul>
+          <li>Automation of digital media sales</li>
+          <li>Creation of a spot market (real-time bidding)</li>
           <li>~$300bn digital ad spending</li>
           <li>Soon (2020?) 50% of all media spending</li>
-          <li>Abcd</li>
-          <li>Abcd</li>
-          <li>Abcd</li>
-          <li>Abcd</li>
-          <li>Abcd</li>
-          <li>Abcd</li>
-          <li>Abcd</li>
+          <li>Dominated by Google and Facebook</li>
+          <li>But constantly evolving</li>
         </ul>
       </section>
 
       <section>
-        <h2>The SSP</h2>
+        <h2>The idealized SSP</h2>
         <img src="figures/SSP.svg" style="border:0; box-shadow: 0 0 0;"></img>
+      </section>
+
+      <section>
+        <h2>In practice</h2>
+        <ul>
+          <li>Lots of market imperfections</li>
+          <ul>
+            <li>Integration costs</li>
+            <li>Business partnerships</li>
+            <li>Cross subsidies</li>
+          </ul>
+          <li>Each SSP has some exclusive demand or supply</li>
+          <li>Some publishers don't want to rely on one tech stack</li>
+          <li>Hence the idea of <em>Header Bidding</em></li>
+        </ul>
       </section>
 
       <section>
@@ -62,55 +79,93 @@
       <section>
         <h2>The header bidding problem</h2>
         <ul>
-          <li>Abcd</li>
-          <li>Abcd</li>
-          <li>Abcd</li>
-          <li>Abcd</li>
+          <li>For each impression $i$</li>
+          <li>SSP closing ones auction at $p_i$</li>
+          <li>Advertizer will pay $p_i$ if winning</li>
+          <li>SSP returning $q_i$ to the publisher</li>
+          <li>$q_i$ competes with other SSPs (first price)</li>
+          <li>SSP wins if $q_i > x_i$ the largest of other SSPs responses</li>
+          <li>If winning SSP pays $q_i$ and charges $p_i$</li>
+          <li><em>What is the best $q_i$?</em></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>The payoff with full information</h2>
+        <ul>
+          <li><em>What is the best $q_i$?</em></li>
+          <li>Without <em>per impression</em> competition it could be</li>
+          $$q_i = p_i\cdot(1-\text{fees})$$
+          <li>If $x_i$ is known the SSP tries to maximize</li>
+          $$R_i(q_i) = \mathbf{1}_{q_i \geq x_i}(p_i - q_i)$$
+          <li>$q_i$ should be as small as possible</li>
+          <li>But if $q_i$ too small everything is lost</li>
         </ul>
       </section>
 
       <section>
         <h2>Payoff</h2>
-        <div id="payoff-control" style="width:30%; height:100%; margin:0; padding:0; float:left; font-size:50%">
+        <div id="payoff-control" style="width:25%; height:100%; margin:0; padding:0; float:left; font-size:50%">
           <ul><li id="payoff-value-control">
-            <p>Value</p>
+            <p>Value $p_i$</p>
             <input type="range" min="0" max="50" value="20" step="any" class="slider">
           </li><li id="payoff-floor-control">
-            <p>Next</p>
+            <p>Next $x_i$</p>
             <input type="range" min="0" max="50" value="5" step="any" class="slider">
           </li><li id="payoff-bid-control">
-            <p>Bid</p>
+            <p>Bid $q_i$</p>
             <input type="range" min="0" max="50" value="10" step="any" class="slider">
           </li></ul>
         </div>
-        <div id="payoff" style="width:70%; height:100%; margin:0; padding:0; float:left"></div>
+        <div id="payoff" style="width:75%; height:100%; margin:0; padding:0; float:left"></div>
         <div style="clear:both"/>
+      </section>
+
+      <section>
+        <h2>The stochastic setting</h2>
+        <ul>
+          <li>$x_i$ drawn from an unknown distribution $f_\theta$</li>
+          <li>$f_\theta$ parametrized by $\theta$</li>
+          <li><em>What is the best $q_i$?</em></li>
+          <li>Given $\theta$, the SSP tries to maximize</li>
+          $$\mathbb{E}\left[R_i(q_i)\right] = (p_i - q_i) F_{\theta}(q_i)$$
+        </ul>
       </section>
 
       <section>
         <h2>Expected payoff</h2>
-        <div id="expected-payoff-control" style="width:30%; height:100%; margin:0; padding:0; float:left; font-size:50%">
+        <div id="expected-payoff-control" style="width:25%; height:100%; margin:0; padding:0; float:left; font-size:50%">
           <ul><li id="expected-payoff-value-control">
-            <p>Value</p>
+            <p>Value $p_i$</p>
             <input type="range" min="0" max="50" value="20" step="any" class="slider">
           </li><li id="expected-payoff-floor-control">
-            <p>Mu/Sigma</p>
+            <p>$\mu$/$\sigma$</p>
             <input id="expected-payoff-mu-control" type="range" min="0" max="50" value="5" step="any" class="slider">
             <input id="expected-payoff-sigma-control" type="range" min="0" max="2" value="0" step="any" class="slider">
           </li><li id="expected-payoff-bid-control">
-            <p>Bid</p>
+            <p>Bid $q_i$</p>
             <input type="range" min="0" max="50" value="10" step="any" class="slider">
           </li></ul>
         </div>
-        <div id="expected-payoff" style="width:70%; height:100%; margin:0; padding:0; float:left"></div>
+        <div id="expected-payoff" style="width:75%; height:100%; margin:0; padding:0; float:left"></div>
         <div style="clear:both"/>
       </section>
 
       <section>
+        <h2>The stochastic setting</h2>
+        <ul>
+          <li>Given $\theta$, the SSP tries to maximize</li>
+          $$\mathbb{E}\left[R_i(q_i)\right] = (p_i - q_i) F_{\theta}(q_i)$$
+          <li>When $\theta$ is unknown, we have a bandit problem</li>
+          <li>The SSP must find trade-off between <em>exploration</em> and <em>exploitation</em></li>
+        </ul>
+      </section>
+
+      <section>
         <h2>Particle Representation</h2>
-        <div id="particle-representation-control" style="width:30%; height:100%; margin:0; padding:0; float:left; font-size:50%">
+        <div id="particle-representation-control" style="width:25%; height:100%; margin:0; padding:0; float:left; font-size:50%">
           <ul><li id="particle-representation-floor-control">
-            <p>Mu/Sigma</p>
+            <p>$\mu$/$\sigma$</p>
             <input id="particle-representation-mu-control" type="range" min="0" max="5" value="1" step="any" class="slider">
             <input id="particle-representation-sigma-control" type="range" min="0" max="5" value="1" step="any" class="slider">
           </li><li id="particle-representation-noise-resampling-control">
@@ -122,15 +177,15 @@
             <input type="range" min="1" max="100" value="10" step="any" class="slider">
           </li></ul>
         </div>
-        <div id="particle-representation" style="width:70%; height:100%; margin:0; padding:0; float:left"></div>
+        <div id="particle-representation" style="width:75%; height:100%; margin:0; padding:0; float:left"></div>
         <div style="clear:both"/>
       </section>
 
       <section>
         <h2>Performance</h2>
-        <div id="performance-control" style="width:30%; height:100%; margin:0; padding:0; float:left; font-size:50%">
+        <div id="performance-control" style="width:25%; height:100%; margin:0; padding:0; float:left; font-size:50%">
           <ul><li id="performance-floor-control">
-            <p>Mu/Sigma</p>
+            <p>$\mu$/$\sigma$</p>
             <input id="performance-mu-control" type="range" min="0" max="5" value="1" step="any" class="slider">
             <input id="performance-sigma-control" type="range" min="0" max="5" value="1" step="any" class="slider">
           </li><li id="performance-noise-resampling-control">
@@ -148,7 +203,7 @@
             <input type="range" min="1" max="100" value="10" step="any" class="slider">
           </li></ul>
         </div>
-        <div id="performance" style="width:70%; height:100%; margin:0; padding:0; float:left"></div>
+        <div id="performance" style="width:75%; height:100%; margin:0; padding:0; float:left"></div>
         <div style="clear:both"/>
       </section>
 
