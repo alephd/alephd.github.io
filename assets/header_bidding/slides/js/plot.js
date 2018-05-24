@@ -297,7 +297,7 @@ define('plot', ['d3', 'jstat', 'particle_filter'], function (d3, jstat, pf) {
 
       this.J_control = d3.select(J_control);
       this.discount_control = d3.select(discount_control);
-      this.discount = 0.99;
+      this.discount = 1;
       this.J = 100;
       this.ucb = new pf.UCB(this.J, this.discount, 1, 50);
       this.ref_J = 100;

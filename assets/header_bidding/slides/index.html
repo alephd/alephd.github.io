@@ -152,12 +152,68 @@
       </section>
 
       <section>
-        <h2>The stochastic setting</h2>
+        <h2>Learning $\theta$</h2>
         <ul>
           <li>Given $\theta$, the SSP tries to maximize</li>
           $$\mathbb{E}\left[R_i(q_i)\right] = (p_i - q_i) F_{\theta}(q_i)$$
           <li>When $\theta$ is unknown, we have a bandit problem</li>
           <li>The SSP must find trade-off between <em>exploration</em> and <em>exploitation</em></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>The bandit problem</h2>
+        <ul>
+          <li>Arms are possible $q_i$s</li>
+          <li>Everything conditional on some context $c$</li>
+          <li>>10k events/sec</li>
+          <li>But many contexts (levels of $p_i$)</li>
+          <li>Learning quickly is critical</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Trying <em>UCB</em> and <em>Exp3</em></h2>
+        <ul>
+          <li>Each arm payoff is assumed independent</li>
+          <li>Reducing the number of $q_i$ buckets helps</li>
+          <li>It captures some of the local correlations and accelerates learning speed</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Introducing the auction structure</h2>
+        <ul>
+          <li>Idea</li>
+          <ul>
+            <li>Learning $f_\theta$ from a parametric familly</li>
+            <li>Using Thomson sampling to solve <em>explore vs exploit</em></li>
+          </ul>
+          <li>Information really scarce (won or not), $\theta$ should be low-dimensional</li>
+          <li>Storing the sequence of bayesian updates impractical</li>
+          $$\pi_{c,t}(\theta) \propto \pi_{c,0}(\theta) \prod_{i \in \mathcal{D}_{t,c}} \big[F_{\theta}(q_i) \mathbf{1}_{x_i \leq q_i} + (1 - F_{\theta}(q_i)) \mathbf{1}_{x_i > q_i}\big]$$
+        </ul>
+      </section>
+
+      <section>
+        <h2>Particle filter</h2>
+        <ul>
+          <li>Posterior stored as a sample of the <em>true</em> distribution</li>
+          $$\hat{w}_{c,k,t} = \hat{w}_{c,k,t-1} \times \big[F_{\theta_{c,k,t}}(q_t) \mathbf{1}_{x_t \leq q_t} + (1 - F_{\theta_{c,k,t}}(q_t)) \mathbf{1}_{x_t > q_t}\big]$$
+          <li>Weights updated and normalized at each step</li>
+          $$w_{c,k,t} = \frac{\hat{w}_{c,k,t}}{\sum_{k'=1}^K \hat{w}_{c,k',t}}$$
+          <li>$\theta$s are perturbated slightly to account for non-stationarities</li>
+          <li>To avoid degeneracy $\Big(\sum_{k=1}^K w_{c,k,t}^2\big)^{-1}$, we resample $\theta$s</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Thompson Sampling</h2>
+        <ul>
+          <li>Sample a value $\theta$ from the posterior distribution $\pi_{c_i,t_{i-1}}$</li>
+          <li>Compute the bid $q_i$ that would maximize the SSP's expected revenue if $x_i \sim f_{\theta}$ (see below)</li>
+          <li>Observe the auction outcome $\mathbf{1}_{q_i \geq x_i}$ and update the posterior $\pi_{c_i,t_{i}}$</li>
+          <li>As the particle filter provides a discrete approximation of the posterior distribution, the sampling step is straightforward</li>
         </ul>
       </section>
 
@@ -197,7 +253,7 @@
             <input type="range" min="1" max="1000" value="100" step="1" class="slider">
           </li><li id="performance-discount-control">
             <p>Discount</p>
-            <input type="range" min="0.99" max="1" value="0.99" step="any" class="slider">
+            <input type="range" min="0.99" max="1" value="1" step="any" class="slider">
           </li><li id="performance-speed-control">
             <p>Speed</p>
             <input type="range" min="1" max="100" value="10" step="any" class="slider">
@@ -208,35 +264,7 @@
       </section>
 
       <section>
-        <h2>Slide 2</h2>
-        <p>
-          stylesheet
-          $$ x^2$$
-          \[\begin{aligned} \dot{x} &amp; = \sigma(y-x) \\ \dot{y} &amp; = \rho x - y - xz \\ \dot{z} &amp; = -\beta z + xy \end{aligned} \]
-        </p>
-      </section>
-
-      <section data-markdown>
-        <textarea data-template>
-        ## Markdown support
-        Write content using inline or external Markdown.
-        Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
-        </textarea>
-      </section>
-
-      <section>
-        <h2>A list</h2>
-        <ul>
-          <li>Abcd</li>
-          <li>Abcd</li>
-          <li>Abcd</li>
-          <li>Abcd</li>
-          <li>Abcd</li>
-          <li>Abcd</li>
-          <li>Abcd</li>
-          <li>Abcd</li>
-          <li>Abcd</li>
-        </ul>
+        <h1>Thank you</h1>
       </section>
     </div>
   </div>

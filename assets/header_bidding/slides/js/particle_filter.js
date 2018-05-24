@@ -118,7 +118,8 @@ define('particle_filter', ['d3', 'jstat'], function (d3, jstat) {
       this.sigma = sigma;
     }
     update() {
-      this.value = jstat.lognormal.sample(Math.log(20), 1);
+      // this.value = jstat.lognormal.sample(Math.log(20), 1);// Controlled by context
+      this.value = 40;
       this.floor = jstat.lognormal.sample(this.mu, this.sigma);
     }
     experiment(action) {
