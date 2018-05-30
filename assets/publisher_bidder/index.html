@@ -1,0 +1,342 @@
+<!doctype html>
+<meta charset="utf-8">
+<script src="https://distill.pub/template.v1.js"></script>
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.css" integrity="sha384-B41nY7vEWuDrE9Mr+J2nBL0Liu+nl/rBXTdpQal730oTHdlrlXHzYMOhDU60cwde" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.js" integrity="sha384-L9gv4ooDLrYwW0QCM6zY3EKSSPrsuUncpx26+erN0pJX4wv1B1FzVW1SvpcJPx/8" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/contrib/auto-render.min.js" integrity="sha384-RkgGHBDdR8eyBOoWeZ/vpGg1cOvSAJRflCUDACusAAIVwkwPrOUYykglPeqWakZu" crossorigin="anonymous"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+<!-- For local work -->
+<!-- <script src="template.v1.js"></script>
+<link rel="stylesheet" href="katex.min.css">
+<script src="katex.min.js"></script>
+<script src="auto-render.min.js"></script>
+<script src="d3.v4.min.js"></script> -->
+
+<script type="text/front-matter">
+  title: "A holistic approach to selling ads"
+  description: "A modern approach to selling direct campaigns"
+  authors:
+  - Nicolas Grislain: mailto:nicolas.grislain@oath.com
+  affiliations:
+  - AlephD: http://www.alephd.com
+</script>
+
+<dt-article>
+  <h1>A holistic approach to selling ads</h1>
+  <h2>A modern approach to selling direct campaigns</h2>
+  <dt-byline></dt-byline>
+
+<!--
+  jstat ou https://github.com/scijs/gsl-cdf
+  http://mbostock.github.io/stack/ (https://bost.ocks.org/mike/)
+  https://github.com/hakimel/reveal.js/
+  https://github.com/webslides/webslides/
+-->
+  <h2>Introduction</h2>
+  <p>
+    The first section describes quickly the industry
+  </p>
+
+  <h2>Background on the advertising industry</h2>
+
+  <h2>What are direct campaigns?</h2>
+  <p>
+    Direct campaigns are <em>simple contracts</em> where a publisher promises to deliver a certain amount
+    of impressions to an advertiser in a certain timeframe at an agreed price.
+    Such contracts usually specify:
+  </p>
+  <ul>
+    <li>An inventory/audience defined by some targeting expression (e.g. some placements, audience segments in a country)</li>
+    <li>A volume goal (usually the main promise)</li>
+    <li>Some KPI goals (e.g. 50% viewable imprssions, 1M completed views)</li>
+    <li>A time frame for delivering on these goals</li>
+    <li>Penalties for not delivering on the goals</li>
+  </ul>
+  <p>Direct campaigns are </p>
+
+  <h2>The cost of allocating an impression to direct</h2>
+  <p>
+    When selling direct campaign
+  </p>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  <div id="simple-allocation" class="l-middle side"></div>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+  <h3>Allocation based on price</h3>
+  <div id="price-based-allocation" class="l-middle side"></div>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+  <h2>The value of allocating an impression to direct</h2>
+  <p></p>
+  <div id="supply-demand"></div>
+
+  <div id="supply-demand-rtb"></div>
+
+  <h2>Optimal execution of direct campaigns</h2>
+  <h2>Buying on the spot market</h2>
+  <p>A publisher always has the opportunity to sell an impression on the spot market through
+  RTB auctions.</p>
+  <div id="priority"></div>
+  <p>A publisher always has the opportunity to sell an impression on the spot market through
+  RTB auctions.</p>
+  <div id="competitive"></div>
+  <p>An auction is characterized by a non-negative first bid $b$ following a distribution $F_b$ and a second bid $c$ following a conditional distribution $F_c(\cdot;b)$ and an inconditionnal distribution $F_c$
+
+  The probability of winning the auction with a campaign bid $a$ is given by: $$F_b(a)$$
+
+  The expected revenue of the publisher in a first price auction will be:
+  $$Q(a) = \int_a^{+\infty} bf_b(b)db$$
+  $Q$ is decreasing, $Q(0)=\mathbb{E}(b)$, $Q^\prime(0)=0$, $\lim_{a\to +\infty}Q(a)=0$ and: $$Q^\prime(a)=-af_b(a)$$
+
+  The expected revenue for the publisher in a second price auction will be:
+
+  $$R(a) = \int_a^{+\infty} \left(\int_0^a af_c(c;b)f_b(b)dc + \int_a^b cf_c(c;b)f_b(b)dc\right)db$$
+  $$R^\prime(a) = \int_a^{+\infty} \int_0^a f_c(c;b)f_b(b)dcdb - af(a)$$
+  $R(0)=\mathbb{E}(c)$, $\lim_{a\to +\infty}R(a)=0$ and: $$R^\prime(a)=-af_b(a) + \int_a^{+\infty} \int_0^a f_c(c;b)f_b(b)dcdb$$
+  $$R^\prime(a)=-af_b(a)+F_c(a)-F_b(a)$$</p>
+  <p>We can write $R^\prime(a)=-\left(a - \frac{F_c(a)-F_b(a)}{f_b(a)}\right)f_b(a) = -r(a)f_b(a)$, so that:
+  $$r(a) = a - \frac{F_c(a)-F_b(a)}{f_b(a)} < a$$ because ($F_c(a)>F_b(a)$)</p>
+
+  <h2>Hard booking <i>vs</i> soft commitment</h2>
+
+  <h2>Targetting KPIs</h2>
+
+  <h2>Daily pacing</h2>
+
+  <h2>Accounting for uncertainty</h2>
+
+  <h2>Continuous time approach</h2>
+  <p>The publisher tries to optimize its revenue.</p>
+  <p>Let $V_t(a_t)dt$ the volume bought in $dt$.</p>
+  <p>Let $R_t(a_t)dt$ the revenue generated for the publisher during $dt$.</p>
+  <p>We assume $R_t^\prime(a_t) = -r(a_t)V_t^\prime(a_t)$ with $r(a_t)< a_t$</p>
+  <p>The problem is to maximize:
+  $$\max_{(a_t)_t}\int_0^T R_t(a_t)dt -\gamma\max\left(0,G_v-\int_0^TV_t(a_t)dt\right)$$
+  The first order conditions give:
+  $$ -r(a_t)V_t(a_t)^\prime dt +\lambda V_t^\prime(a_t)dt = 0$$</p>
+
+  <p>So if $\int_0^TV_t(a_t)dt = G_v$:
+  $$a_t = r^{-1}(\lambda)$$ and $\lambda \in [0,\gamma]$</p>
+
+  <p>if $\int_0^TV_t(a_t)dt > G_v$ $$a_t = r^{-1}(0)$$</p>
+
+  <p>and if $\int_0^TV_t(a_t)dt < G_v$ $$a_t = r^{-1}(\gamma)$$</p>
+
+  <h2>Simple stochastic approach</h2>
+
+  <p>The publisher tries to optimize its revenue.</p>
+
+  <p>Let $V_t(a_t) = V(a_t)S_{t}$.</p>
+
+  <p>We have $R_t(a_t) = R(a_t)S_{t}$ and $R'(a_t)=-r(a_t)V'(a_t)$</p>
+
+  <p>With $dS_{t} = \mu(t,S_t)dt +\sigma(t,S_t)dW_{t}$</p>
+
+  <p>The problem is to maximize:
+  $$\max_{(a_t)_t}\mathbb{E}\left[\int_0^T R_t(a_t)dt -\gamma\max\left(0,G_v-\int_0^TV_t(a_t)dt\right)\right]$$</p>
+
+  <p>We note: $$\Pi(t,G,S) = \max_{(a_s)_{s>t}}\mathbb{E}_t\left[\int_t^T R(a_s)Sds -\gamma\max\left(0,G-\int_t^TV(a_s)Sds\right)\right]$$</p>
+
+  <p>$$\Pi(t,G_t,S_t) = \max_{(a_s)_{s>t}}\mathbb{E}_t\left[R(a_t)S_tdt+\int_{t+dt}^T R_s(a_s)ds \right.$$
+  $$\left.-\gamma\max\left(0,G_t-V(a_t)S_tdt-\int_{t+dt}^TV_s(a_s)ds\right)\right]$$
+
+  $$\Pi(t,G_t,S_t) = \max_{(a_s)_{s>t}}\mathbb{E}_t\left[R(a_t)S_tdt+\Pi(t+dt,G-V(a_t)S_tdt, S_t+dS_t)\right]$$</p>
+
+  <p>Hamilton-Jacobi-Bellman equation:
+  $$\frac{\partial}{\partial t}\Pi(t,G_t,S_t)+ \frac{\partial}{\partial S_t}\Pi(t,G_t,S_t)\mu(t,S_t) + \frac12\frac{\partial^2}{\partial S_t^2}\Pi(t,G_t,S_t)\sigma(t,S_t)^2$$
+  $$+ \max_{a_t}\left[R(a_t)S_t - \frac{\partial}{\partial G_t}\Pi(t,G_t,S_t)V(a_t)S_t\right] = 0$$</p>
+
+  <p>At the maximum we have:
+  $$r(a_t^*) = -\frac{\partial}{\partial G_t}\Pi(t,G_t,S_t)$$
+
+  $$\frac{\partial}{\partial t}\Pi(t,G_t,S_t) + \frac{\partial}{\partial S_t}\Pi(t,G_t,S_t)\mu(t,S_t) + \frac12\frac{\partial^2}{\partial S_t^2}\Pi(t,G_t,S_t)\sigma(t,S_t)^2$$
+  $$+ R(a_t^*)S_t - \frac{\partial}{\partial G_t}\Pi(t,G_t,S_t)V(a_t^*)S_t = 0$$</p>
+
+  <p>We have $R_t(a_t) = R(a_t)S_{t}$ and $R'(a_t)=-r(a_t)V'(a_t)$.</p>
+  <p>We have $R(a_t)=-\int_C^{a_t}r(a)V'(a)da$.
+  $$R(a_t)=\int_C^{a_t}r'(a)V(a)da - \left[r(a)V(a)\right]_C^{a_t}$$
+  For $C=0$ we have:
+  $$R(a_t)=\int_0^{a_t}r'(a)V(a)da - r(a_t)V(a_t)$$
+  If we also have $r = a \mapsto a$:
+  $$R(a_t)=\int_0^{a_t}V(a)da - a_tV(a_t)$$
+  </p><p>
+  We will have:
+  $$\frac{\partial}{\partial t}\Pi(t,G_t,S_t) + \frac{\partial}{\partial S_t}\Pi(t,G_t,S_t)\mu(t,S_t) + \frac12\frac{\partial^2}{\partial S_t^2}\Pi(t,G_t,S_t)\sigma(t,S_t)^2$$
+  $$+ S_tW\left(-\frac{\partial}{\partial G_t}\Pi(t,G_t,S_t)\right) = 0$$
+  </p><p>
+  We can rewrite the problem in $a$:
+  $$\frac{\partial}{\partial t}a(t,G,S) + \frac{\partial}{\partial S}a(t,G,S)\mu(t,S) + \frac12\frac{\partial^2}{\partial S^2}a(t,G,S)\sigma(t,S)^2$$
+  $$- SV(a)\frac{\partial}{\partial G}a(t,G,S) = 0$$
+  </p>
+  <div id="pde"></div>
+
+  <dt-code lang="python">gamma*(1-np.exp(-lamb*goal/((max_time-time)*supply)))*(goal>0)</dt-code>
+
+  <p>This is the first paragraph of the article.</p>
+  <p>We can also cite <dt-cite key="balseiro2014yield"></dt-cite> external publications.</p>
+  <p>We can also cite <dt-cite key="roels2009dynamic"></dt-cite> external publications.</p>
+  <p>We can also cite <dt-cite key="kitts2017ad"></dt-cite> external publications.</p>
+  <h2>Conclusion</h2>
+
+</dt-article>
+
+<dt-appendix>
+</dt-appendix>
+
+<script type="text/bibliography">
+@article{balseiro2014yield,
+  title={Yield optimization of display advertising with ad exchange},
+  author={Balseiro, Santiago R and Feldman, Jon and Mirrokni, Vahab and Muthukrishnan, S},
+  journal={Management Science},
+  volume={60},
+  number={12},
+  pages={2886--2907},
+  year={2014},
+  publisher={INFORMS},
+  url={https://arxiv.org/pdf/1102.2551.pdf}
+}
+@article{roels2009dynamic,
+  title={Dynamic revenue management for online display advertising},
+  author={Roels, Guillaume and Fridgeirsdottir, Kristin},
+  journal={Journal of Revenue and Pricing Management},
+  volume={8},
+  number={5},
+  pages={452--466},
+  year={2009},
+  publisher={Springer},
+  url={http://files.pch.webnode.com/200000000-bae4dbbdea/rpm200910a.pdf}
+}
+@inproceedings{kitts2017ad,
+  title={Ad Serving with Multiple KPIs},
+  author={Kitts, Brendan and Krishnan, Michael and Yadav, Ishadutta and Zeng, Yongbo and Badeau, Garrett and Potter, Andrew and Tolkachov, Sergey and Thornburg, Ethan and Janga, Satyanarayana Reddy},
+  booktitle={Proceedings of the 23rd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
+  pages={1853--1861},
+  year={2017},
+  organization={ACM}
+}
+</script>
+
+<script>
+  renderMathInElement(document.body,
+    {
+      delimiters: [
+        {left: "$$", right: "$$", display: true},
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false},
+        {left: "\\(", right: "\\)", display: false}
+      ]
+    });
+</script>
+
+<!-- Global variables -->
+<script>
+  var colors = d3.schemeCategory10,
+    blue =  d3.color(colors[0]),
+    orange = d3.color(colors[1]),
+    green = d3.color(colors[2]),
+    red = d3.color(colors[3]),
+    gray = d3.color(colors[7]);
+  // Main metrics
+  var width = 900,
+    height = 300,
+    fontSize = 12,
+    labelOffset = 10,
+    numberTicks = 10,
+    padding = 5,
+    margin = {
+      top: 30,
+      bottom: 30,
+      left: 30,
+      right: 30
+    };
+</script>
+
+<!-- Auction data + A and G data from PDE solutions -->
+<script src="data.js"></script>
+
+<!-- Auction examples + auction charts + A and G charts from PDE solutions -->
+<script src="proposal.js"></script>
+
+<script>
+  function supplyDemand(div) {
+    var chartWidth = width-margin.left-margin.right;
+    var chartHeight = height-margin.bottom-margin.top;
+    var overallVolume = 100, rtbCpm = 20, sigma = 3;
+    var bids = d3.ticks(0, 50, 1000);
+    // The model
+    var model = new Proxy({
+      campaignVolumeGoal: 20,
+      campaignPenalty: 30,
+      controller: (model) => null
+    }, {
+      set: (model, property, value, receiver) => {
+        model[property] = value;
+        model.campaignVolumeGoal = Math.max(0, model.campaignVolumeGoal);
+        model.campaignPenalty = Math.max(0, model.campaignPenalty);
+        model.supply = bids.map((b,i) => overallVolume*Math.exp((b-rtbCpm)/sigma)/(1+Math.exp((b-rtbCpm)/sigma)));
+        model.demand = bids.map((b,i) => b>model.campaignPenalty ? 0 : model.campaignVolumeGoal);
+        model.diff = bids.map((b,i) => model.supply[i]-model.demand[i]);
+        var k = Math.min(d3.bisect(model.diff,0), bids.length-1);
+        model.bid = bids[k];
+        model.volume = model.supply[k];
+        model.cost = [[0,0]];
+        bids.forEach((b,i) => {
+          if (i<k) {
+            model.cost.push([b,model.cost[model.cost.length-1][1]+1e-3*b*(model.supply[i+1]-model.supply[i])]);
+          }
+        });
+        model.cost.push([bids[bids.length-1], model.cost[model.cost.length-1][1]]);
+        model.controller(model);
+      }
+    });
+    // The view
+    var svg = div.append("svg").attr("width", width).attr("height", height);
+    var g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+    var volumeScale = d3.scaleLinear().domain([0, overallVolume]).range([chartHeight, 0]),
+      bidScale = d3.scaleLinear().domain([0, d3.max(bids)]).range([0, chartWidth]),
+      revenueScale = d3.scaleLinear().domain([0, 1.1e-3*overallVolume*rtbCpm]).range([chartHeight, 0]),
+      supplyPath = g.append("path").attr("id", "supply")
+        .style("stroke", orange).style("stroke-width", 3).style("fill", "none"),
+      demandPath = g.append("path").attr("id", "demand")
+        .style("stroke", blue).style("stroke-width", 3).style("fill", "none"),
+      costPath = g.append("path").attr("id", "cost")
+        .style("stroke", red).style("stroke-width", 1).style("fill", "none"),
+      bidLevel = g.append("g").attr("id", "bid-level")
+          .append("line").attr("y1",volumeScale(0)).style("stroke", red).style("stroke-width", 1);
+      bidMarker = g.append("g").attr("id", "bid-marker")
+        .append("path").attr("d", d3.symbol().type(d3.symbolCircle)).style("fill", red);
+      bidMarker.append("text").attr("x", 0).attr("y", -labelOffset).attr("text-anchor", "middle")
+        .style("font-size", `${fontSize}px`).style("fill", red);
+    g.append("g").attr("transform", `translate(0,${chartHeight})`).call(d3.axisBottom(bidScale).ticks(numberTicks));
+    g.append("g").attr("transform", `translate(0,0)`).call(d3.axisLeft(volumeScale).ticks(numberTicks));
+    g.append("g").attr("transform", `translate(${chartWidth},0)`).call(d3.axisLeft(revenueScale).ticks(numberTicks));
+    svg.on("mousemove", () => {
+      model.campaignVolumeGoal = volumeScale.invert(d3.mouse(g.node())[1]);
+      model.campaignPenalty = bidScale.invert(d3.mouse(g.node())[0]);
+    });
+    // The controller
+    model.controller = (model) => {
+      supplyPath.datum(d3.zip(bids, model.supply))
+        .attr("d", d3.line().x(d => bidScale(d[0])).y(d => volumeScale(d[1])));
+      demandPath.datum(d3.zip(bids, model.demand))
+        .attr("d", d3.line().x(d => bidScale(d[0])).y(d => volumeScale(d[1])));
+      costPath.datum(model.cost)
+        .attr("d", d3.line().x(d => bidScale(d[0])).y(d => revenueScale(d[1])));
+      bidLevel.attr("x1", bidScale(model.bid)).attr("x2", bidScale(model.bid)).attr("y2",volumeScale(model.volume));
+      bidMarker.attr("transform", `translate(${bidScale(model.bid)}, ${volumeScale(model.volume)})`);
+    };
+    return div;
+  }
+</script>
+
+<script>
+  // Executing various scripts
+  simpleAllocation(d3.select("#simple-allocation"));
+  priceBasedAllocation(d3.select("#price-based-allocation"));
+  supplyDemand(d3.select("#supply-demand"));
+  priority(d3.select("#priority"));
+  competitive(d3.select("#competitive"));
+  pde(d3.select("#pde"))
+</script>
